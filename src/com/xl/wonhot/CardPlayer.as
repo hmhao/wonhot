@@ -15,7 +15,7 @@ package com.xl.wonhot {
 	 * ...
 	 * @author hmh
 	 */
-	public class CardPlayer extends Card{
+	public class CardPlayer extends Card {
 		private var _width:int = 460;
 		private var _height:int = 400;
 		private var _client:Object;
@@ -23,6 +23,7 @@ package com.xl.wonhot {
 		private var _ns:NetStream;
 		private var _vo:Video;
 		private var _closeBtn:UICloseButton;
+		private var _link:String;
 		
 		public function CardPlayer() {
 			
@@ -48,12 +49,13 @@ package com.xl.wonhot {
 			this.addChild(_closeBtn);
 			
 			this.addEventListener(MouseEvent.CLICK, onClick);
+			this.buttonMode = true;
 		}
 		
 		private function onClick(evt:MouseEvent):void {
 			if (evt.target == _closeBtn) {
 				this.dispatchEvent(new WonhotEvent(WonhotEvent.CLOSE));
-			}else {
+			} else {
 				this.dispatchEvent(new WonhotEvent(WonhotEvent.LINK));
 			}
 		}
@@ -69,7 +71,7 @@ package com.xl.wonhot {
 					break;
 				case 'NetStream.Play.StreamNotFound': 
 					/*_isError = true;
-					errHandler('load');*/
+					 errHandler('load');*/
 					break;
 				case 'NetStream.Play.Start': 
 					//dispatchEvent(new PauseEvent(PauseEvent.LOAD_COMPLETE));
@@ -122,7 +124,7 @@ package com.xl.wonhot {
 				_vo.attachNetStream(null);
 				removeNetStreamEvent(_ns);
 				_ns.close();
-				_ns.client = null;
+				_ns.client = {};
 				_ns = null;
 			}
 		}
@@ -133,6 +135,14 @@ package com.xl.wonhot {
 		
 		override public function get height():Number {
 			return _height;
+		}
+		
+		public function get link():String {
+			return _link;
+		}
+		
+		public function set link(value:String):void {
+			_link = value;
 		}
 	}
 }
