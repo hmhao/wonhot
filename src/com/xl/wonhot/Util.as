@@ -66,6 +66,13 @@ package com.xl.wonhot {
 			if (!/https?:\/\//.test(str)) { return; }
 			navigateToURL(new URLRequest(str));
 		}
+		
+		public static function log(...rest):void {
+			CONFIG::debug {
+				trace(rest);
+			}
+			
+		}
 	}
 
 }

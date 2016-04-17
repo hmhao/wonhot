@@ -13,7 +13,7 @@ package com.xl.wonhot {
 	import flash.events.AsyncErrorEvent;
 	
 	/**
-	 * ...
+	 * 卡片
 	 * @author hmh
 	 */
 	public class Card extends Sprite implements ICard{
@@ -46,14 +46,14 @@ package com.xl.wonhot {
 		}
 		
 		private function picLoadComplete(evt:Event):void {
-			//trace(evt);
+			Util.log(evt);
 			_loader.width = _picLoader.width;
 			_loader.height = _picLoader.height;
 			_reflection && _reflection.update();
 		}
 		
 		private function picLoadErr(evt:Event):void {
-			trace(evt);
+			Util.log(evt);
 		}
 		
 		private function updatePosition():void {

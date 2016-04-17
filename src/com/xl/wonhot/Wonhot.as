@@ -109,14 +109,14 @@ package com.xl.wonhot {
 	
 		private function onMouseRollOver(evt:MouseEvent):void {
 			if (status == CLOSEED) {
-				trace("start:" + status);
+				Util.log("start:" + status);
 				timer.start();
 			}
 		}
 		
 		private function onMouseRollOut(evt:MouseEvent):void {
 			if (status == CLOSEED) {
-				trace("reset:" + status);
+				Util.log("reset:" + status);
 				timer.reset();
 			}
 		}
@@ -142,37 +142,37 @@ package com.xl.wonhot {
 		
 		private function onLink(evt:WonhotEvent):void {
 			//跳转
-			trace('link');
+			Util.log('link');
 			Util.windowOpen(cardPlayer.link);
 		}
 		
 		private function startExpand():void {
 			status = OPENING;
-			trace("expand:status" + status);
+			Util.log("expand:status" + status);
 			expand(0);
 		}
 		
 		private function completeExpand():void {
 			status = OPENED;
-			trace("expand:status" + status);
+			Util.log("expand:status" + status);
 			//播放
 			manager.playMedia(0);
 		}
 		
 		private function startCollapse():void {
 			status = CLOSEING;
-			trace("collapse:status" + status);
+			Util.log("collapse:status" + status);
 			collapse(0);
 		}
 		
 		private function completeCollapse():void {
 			status = CLOSEED;
-			trace("collapse:status" + status);
+			Util.log("collapse:status" + status);
 			timer.reset();
 		}
 		
 		private function expand(round:int = 0):void {
-			trace("expand:round" + round);
+			Util.log("expand:round" + round);
 			if (round == 0) {
 				doExpand(cardArr.slice(1,2), flipDuration, { alpha:1, rotationX: -180, onComplete:expand, onCompleteParams:[round + 1] });
 			}else if (round == 1) {
@@ -190,7 +190,7 @@ package com.xl.wonhot {
 		
 				
 		private function collapse(round:int = 0):void {
-			trace("collapse:round" + round);
+			Util.log("collapse:round" + round);
 			if (round == 0) {
 				doCollapse([cardPlayer], flipDuration, { alpha:0, rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
 			}else if (round == 1) {

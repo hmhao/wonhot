@@ -4,7 +4,7 @@ package com.xl.wonhot {
 	import flash.external.ExternalInterface;
 	import flash.utils.Timer;
 	/**
-	 * ...
+	 * 卡片管理类
 	 * @author hmh
 	 */
 	public class CardManager extends EventDispatcher {
@@ -18,12 +18,15 @@ package com.xl.wonhot {
 			_cards = cards;
 			_player = player;
 			
-			/*timer = new Timer(500);
-			timer.addEventListener(TimerEvent.TIMER, checkJSAvailable);
-			timer.start();
-			checkJSAvailable();*/
-			
-			setWonhot(null);
+			CONFIG::release {
+				timer = new Timer(500);
+				timer.addEventListener(TimerEvent.TIMER, checkJSAvailable);
+				timer.start();
+				checkJSAvailable();
+			}
+			CONFIG::debug {
+				setWonhot(null);
+			}
 		}
 		
 		private function checkJSAvailable(evt:TimerEvent = null):void {
@@ -40,37 +43,42 @@ package com.xl.wonhot {
 		}
 		
 		private function setWonhot(config:Object):void {
-			//_config = config;
-			_config = {
-				"data":[{
-					"fileSrc":"http://biz5.sandai.net/portal/image/40/o1460713240940.flv",
-					"imgSrc":"http://biz5.sandai.net/portal/image/58/o1460713241058.jpg",
-					"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT01&location=http%3A%2F%2Fwww.qq.com"
-				  }, {
-					"fileSrc":"http://biz5.sandai.net/portal/image/61/o1460713240961.flv",
-					"imgSrc":"http://biz5.sandai.net/portal/image/66/o1460713241066.jpg",
-					"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT02&location=http%3A%2F%2Fwww.baidu.com"
-				  }, {
-					"fileSrc":"http://biz5.sandai.net/portal/image/83/o1460713240983.flv",
-					"imgSrc":"http://biz5.sandai.net/portal/image/78/o1460713241078.jpg",
-					"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT03&location=http%3A%2F%2Fwww.sina.com"
-				  }, {
-					"fileSrc":"http://biz5.sandai.net/portal/image/07/o1460713241007.flv",
-					"imgSrc":"http://biz5.sandai.net/portal/image/85/o1460713241085.jpg",
-					"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT04&location=http%3A%2F%2Fwww.hao123.com"
-				  }, {
-					"fileSrc":"http://biz5.sandai.net/portal/image/26/o1460713241026.flv",
-					"imgSrc":"http://biz5.sandai.net/portal/image/98/o1460713241098.jpg",
-					"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT05&location=http%3A%2F%2Fwww.kankan.com"
-				  }, {
-					"fileSrc":"http://biz5.sandai.net/portal/image/44/o1460713241044.flv",
-					"imgSrc":"http://biz5.sandai.net/portal/image/05/o1460713241105.jpg",
-					"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT06&location=http%3A%2F%2Fwww.youku.com"
-				  }],
-				"packageUrl": "http://click.cm.sandai.net/UClick?gs=cmuclick&ad=1460445249748&position=2909&materialid=m13117497",
-				"startPv":"http://pv.cm.sandai.net/UPV?gs=cmupvEnhance&pvkey=2909&materialid=m13117497",
-				"startLink":"http://www.baidu.com/startlink.2909"
-			};
+			Util.log(config);
+			CONFIG::release {
+				_config = config;
+			}
+			CONFIG::debug {
+				_config = {
+					"data":[{
+						"fileSrc":"http://biz5.sandai.net/portal/image/40/o1460713240940.flv",
+						"imgSrc":"http://biz5.sandai.net/portal/image/58/o1460713241058.jpg",
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT01&location=http%3A%2F%2Fwww.qq.com"
+					  }, {
+						"fileSrc":"http://biz5.sandai.net/portal/image/61/o1460713240961.flv",
+						"imgSrc":"http://biz5.sandai.net/portal/image/66/o1460713241066.jpg",
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT02&location=http%3A%2F%2Fwww.baidu.com"
+					  }, {
+						"fileSrc":"http://biz5.sandai.net/portal/image/83/o1460713240983.flv",
+						"imgSrc":"http://biz5.sandai.net/portal/image/78/o1460713241078.jpg",
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT03&location=http%3A%2F%2Fwww.sina.com"
+					  }, {
+						"fileSrc":"http://biz5.sandai.net/portal/image/07/o1460713241007.flv",
+						"imgSrc":"http://biz5.sandai.net/portal/image/85/o1460713241085.jpg",
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT04&location=http%3A%2F%2Fwww.hao123.com"
+					  }, {
+						"fileSrc":"http://biz5.sandai.net/portal/image/26/o1460713241026.flv",
+						"imgSrc":"http://biz5.sandai.net/portal/image/98/o1460713241098.jpg",
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT05&location=http%3A%2F%2Fwww.kankan.com"
+					  }, {
+						"fileSrc":"http://biz5.sandai.net/portal/image/44/o1460713241044.flv",
+						"imgSrc":"http://biz5.sandai.net/portal/image/05/o1460713241105.jpg",
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT06&location=http%3A%2F%2Fwww.youku.com"
+					  }],
+					"packageUrl": "http://click.cm.sandai.net/UClick?gs=cmuclick&ad=1460445249748&position=2909&materialid=m13117497",
+					"startPv":"http://pv.cm.sandai.net/UPV?gs=cmupvEnhance&pvkey=2909&materialid=m13117497",
+					"startLink":"http://www.baidu.com/startlink.2909"
+				};
+			}
 			
 			var data:Array = _config.data || [];
 			for (var i:int = 0, len:int = data.length; i < len; i++) {
@@ -93,7 +101,9 @@ package com.xl.wonhot {
 		
 		public function closeMedia():void {
 			_player.clear();
-			_cards[_curPlayIndex].play = false;
+			if (_curPlayIndex != -1) {
+				_cards[_curPlayIndex].play = false;
+			}
 			_curPlayIndex = -1;
 		}
 		

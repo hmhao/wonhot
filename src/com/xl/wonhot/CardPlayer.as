@@ -12,7 +12,7 @@ package com.xl.wonhot {
 	import flash.net.NetStream;
 	
 	/**
-	 * ...
+	 * 卡片播放器
 	 * @author hmh
 	 */
 	public class CardPlayer extends Card {
@@ -65,7 +65,7 @@ package com.xl.wonhot {
 		}
 		
 		private function statuEventHandler(evt:NetStatusEvent):void {
-			trace("code :" + evt.info.code);
+			Util.log("code :" + evt.info.code);
 			switch (evt.info.code) {
 				case 'NetConnection.Connect.Success': 
 					break;
