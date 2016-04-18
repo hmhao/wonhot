@@ -24,7 +24,7 @@ package com.xl.wonhot {
 		private var status:int = CLOSEED;//展示状态
 		private var mode:int = 4;//大屏和小屏，右侧card 4个，中屏右侧card 6个
 		private var total:int = 6;//右侧card总数6个
-		private var margin:int = 17;//card间距
+		private var margin:int = 20;//card间距
 		private var flipDuration:Number = 0.5;//翻转时间
 		private var cardArr:Array = [];//card数组
 		private var cardPlayer:CardPlayer;//播放器
@@ -80,7 +80,7 @@ package com.xl.wonhot {
 			cardPlayer.addEventListener(WonhotEvent.LINK, onLink);
 			timer.addEventListener(TimerEvent.TIMER, onStart);
 			stage.addEventListener(Event.RESIZE, updatePosition);
-			
+			updatePosition();
 			manager = new CardManager(cardArr, cardPlayer);
 		}
 		
@@ -88,7 +88,7 @@ package com.xl.wonhot {
 			var sw:Number = stage.stageWidth,
 				card:Card;
 				
-			if (sw < 1180 || sw > 1420) {
+			if (sw <= 943 || sw > 1180) {
 				mode = 4;
 			} else {
 				mode = 6;

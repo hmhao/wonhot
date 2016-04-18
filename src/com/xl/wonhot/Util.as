@@ -2,6 +2,7 @@ package com.xl.wonhot {
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
+	import flash.external.ExternalInterface;
 	
 	/**
 	 * ...
@@ -68,10 +69,12 @@ package com.xl.wonhot {
 		}
 		
 		public static function log(...rest):void {
+			CONFIG::release {
+				ExternalInterface.available && ExternalInterface.call("console.log", rest);
+			}
 			CONFIG::debug {
 				trace(rest);
 			}
-			
 		}
 	}
 
