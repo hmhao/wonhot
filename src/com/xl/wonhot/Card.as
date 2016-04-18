@@ -5,12 +5,14 @@ package com.xl.wonhot {
 	import flash.display.Loader;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
-	import flash.net.URLRequest;
-	import flash.text.TextField;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.AsyncErrorEvent;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
+	import flash.system.SecurityDomain;
+	import flash.text.TextField;
 	
 	/**
 	 * 卡片
@@ -46,14 +48,14 @@ package com.xl.wonhot {
 		}
 		
 		private function picLoadComplete(evt:Event):void {
-			Util.log(evt);
+			//Util.log("picLoadComplete");
 			_loader.width = _picLoader.width;
 			_loader.height = _picLoader.height;
 			_reflection && _reflection.update();
 		}
 		
 		private function picLoadErr(evt:Event):void {
-			Util.log(evt);
+			Util.log("picLoadErr");
 		}
 		
 		private function updatePosition():void {
@@ -76,7 +78,13 @@ package com.xl.wonhot {
 		}
 		
 		public function set pic(value:String):void {
-			_loader.load(new URLRequest(value));
+			CONFIG::release {
+				//必须加LoaderContext,否则出现安全沙箱报错
+				_loader.load(new URLRequest(value), new LoaderContext(false, null, SecurityDomain.currentDomain));
+			}
+			CONFIG::debug {
+				_loader.load(new URLRequest(value));
+			}
 		}
 		
 		public function set play(value:Boolean):void {

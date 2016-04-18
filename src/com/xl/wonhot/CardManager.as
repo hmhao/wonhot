@@ -25,7 +25,7 @@ package com.xl.wonhot {
 				checkJSAvailable();
 			}
 			CONFIG::debug {
-				setWonhot(null);
+				flv_setWonhot(null);
 			}
 		}
 		
@@ -39,11 +39,13 @@ package com.xl.wonhot {
 		}
 		
 		private function addCallback():void {
-			ExternalInterface.addCallback("setWonhot", setWonhot);
+			//Util.log("addCallback");
+			ExternalInterface.addCallback("flv_setWonhot", this.flv_setWonhot);
+			ExternalInterface.addCallback("flv_expand", this.flv_expand);
 		}
 		
-		private function setWonhot(config:Object):void {
-			Util.log(config);
+		public function flv_setWonhot(config:Object):void {
+			Util.log("flv_setWonhot:" + config);
 			CONFIG::release {
 				_config = config;
 			}
@@ -85,6 +87,10 @@ package com.xl.wonhot {
 				_cards[i].title = data[i].fileSrc ? data[i].fileSrc.substring(data[i].fileSrc.lastIndexOf("/")+1) : "";
 				_cards[i].pic = data[i].imgSrc || "";
 			}
+		}
+		
+		public function flv_expand():void {
+			Util.log("expand");
 		}
 		
 		public function playMedia(index:int = 0):void {

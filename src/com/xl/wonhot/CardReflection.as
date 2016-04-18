@@ -28,6 +28,7 @@ package com.xl.wonhot {
 		}
 		
 		public function update():void {
+			//Util.log("update:" + _entity)
 			if (!_entity) return;
 			
 			var x:Number = 0, y:Number = 0, scaleX:Number = 1, scaleY:Number = 1;
@@ -35,7 +36,7 @@ package com.xl.wonhot {
 				case AXIS_X:x = 0; y = _entity.height; scaleY = -1; break;
 				case AXIS_Y:x = _entity.width; y = 0; scaleX = -1; break;
 			}
-			var bmd:BitmapData = new BitmapData(_entity.width, _entity.height);
+			var bmd:BitmapData = new BitmapData(_entity.width, _entity.height, false);
 			bmd.draw(_entity);
 			_bm.bitmapData = bmd;
 			_bm.scaleX = scaleX;

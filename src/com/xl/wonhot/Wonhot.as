@@ -9,6 +9,7 @@ package com.xl.wonhot {
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.system.Security;
 	
 	/**
 	 * ...
@@ -31,6 +32,7 @@ package com.xl.wonhot {
 		private var manager:CardManager;//card管理器
 		
 		public function Wonhot() {
+			Security.allowDomain("*");//必须要加否则js与as通讯时报错
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
@@ -109,14 +111,14 @@ package com.xl.wonhot {
 	
 		private function onMouseRollOver(evt:MouseEvent):void {
 			if (status == CLOSEED) {
-				Util.log("start:" + status);
+				//Util.log("start:" + status);
 				timer.start();
 			}
 		}
 		
 		private function onMouseRollOut(evt:MouseEvent):void {
 			if (status == CLOSEED) {
-				Util.log("reset:" + status);
+				//Util.log("reset:" + status);
 				timer.reset();
 			}
 		}
@@ -142,37 +144,37 @@ package com.xl.wonhot {
 		
 		private function onLink(evt:WonhotEvent):void {
 			//跳转
-			Util.log('link');
+			//Util.log('link');
 			Util.windowOpen(cardPlayer.link);
 		}
 		
 		private function startExpand():void {
 			status = OPENING;
-			Util.log("expand:status" + status);
+			//Util.log("expand:status" + status);
 			expand(0);
 		}
 		
 		private function completeExpand():void {
 			status = OPENED;
-			Util.log("expand:status" + status);
+			//Util.log("expand:status" + status);
 			//播放
 			manager.playMedia(0);
 		}
 		
 		private function startCollapse():void {
 			status = CLOSEING;
-			Util.log("collapse:status" + status);
+			//Util.log("collapse:status" + status);
 			collapse(0);
 		}
 		
 		private function completeCollapse():void {
 			status = CLOSEED;
-			Util.log("collapse:status" + status);
+			//Util.log("collapse:status" + status);
 			timer.reset();
 		}
 		
 		private function expand(round:int = 0):void {
-			Util.log("expand:round" + round);
+			//Util.log("expand:round" + round);
 			if (round == 0) {
 				doExpand(cardArr.slice(1,2), flipDuration, { alpha:1, rotationX: -180, onComplete:expand, onCompleteParams:[round + 1] });
 			}else if (round == 1) {
@@ -190,7 +192,7 @@ package com.xl.wonhot {
 		
 				
 		private function collapse(round:int = 0):void {
-			Util.log("collapse:round" + round);
+			//Util.log("collapse:round" + round);
 			if (round == 0) {
 				doCollapse([cardPlayer], flipDuration, { alpha:0, rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
 			}else if (round == 1) {
