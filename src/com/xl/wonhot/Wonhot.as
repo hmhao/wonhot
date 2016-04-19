@@ -45,8 +45,6 @@ package com.xl.wonhot {
 			for (i = 0; i < total; i++) {
 				card = new Card();
 				card.index = i;
-				card.x = sw - (int(i / 2) + 1) * card.width - int(i / 2) * margin;
-				card.y = sh - (i % 2 + 1) * card.height - (i % 2) * margin;
 				card.visible = false;
 				cardArr.push(card);
 				this.addChild(card);
@@ -66,8 +64,6 @@ package com.xl.wonhot {
 			}
 			//初始化播放器
 			cardPlayer = new CardPlayer();
-			cardPlayer.x = sw - cardPlayer.width - (mode / 2) * (cardArr[0].width + margin);
-			cardPlayer.y = sh - cardPlayer.height;
 			cardPlayer.visible = false;
 			reflection = new CardReflection(cardPlayer, CardReflection.AXIS_Y);
 			reflection.visible = false;
@@ -88,25 +84,40 @@ package com.xl.wonhot {
 		
 		private function updatePosition(evt:Event = null):void {
 			var sw:Number = stage.stageWidth,
+				sh:Number = stage.stageHeight,
+				i:int,
 				card:Card;
-				
+			
 			if (sw <= 943 || sw > 1180) {
 				mode = 4;
 			} else {
 				mode = 6;
 			}
-			for (var i:int = 0; i < total; i++) {
-				card = cardArr[i];
-				card.x = sw - (int(i / 2) + 1) * card.width - int(i / 2) * margin;
-				if (status == OPENED || status == OPENING) {
-					card.visible = i < mode;
-				}else {
-					card.visible = i == 0 || card.visible;
+			if (sh >= 400) {
+				for (i = 0; i < total; i++) {
+					card = cardArr[i];
+					card.x = sw - (int(i / 2) + 1) * card.width - int(i / 2) * margin;
+					card.y = sh - (i % 2 + 1) * card.height - (i % 2) * margin;
+					if (status == OPENED || status == OPENING) {
+						card.visible = i < mode && card.visible;
+					}else {
+						card.visible = i == 0 || card.visible;
+					}
 				}
+				
+				cardPlayer.x = sw - cardPlayer.width - (mode / 2) * (cardArr[0].width + margin);
+				cardPlayer.y = sh - cardPlayer.height;
+				cardPlayer.visible = status == OPENED;
+			}else {
+				for (i = 0; i < total; i++) {
+					card = cardArr[i];
+					card.visible = false;
+				}
+				cardPlayer.visible = false;
+				cardArr[0].x = 0;
+				cardArr[0].y = 0;
+				cardArr[0].visible = true;
 			}
-			
-			cardPlayer.x = sw - cardPlayer.width - (mode / 2) * (cardArr[0].width + margin);
-			cardPlayer.visible = status == OPENED;
 		}
 	
 		private function onMouseRollOver(evt:MouseEvent):void {
@@ -134,6 +145,7 @@ package com.xl.wonhot {
 		}
 		
 		private function onStart(evt:TimerEvent):void {
+			manager.fire_expand();
 			startExpand();
 		}
 		
@@ -171,6 +183,7 @@ package com.xl.wonhot {
 			status = CLOSEED;
 			//Util.log("collapse:status" + status);
 			timer.reset();
+			manager.fire_collapse();
 		}
 		
 		private function expand(round:int = 0):void {

@@ -41,7 +41,6 @@ package com.xl.wonhot {
 		private function addCallback():void {
 			//Util.log("addCallback");
 			ExternalInterface.addCallback("flv_setWonhot", this.flv_setWonhot);
-			ExternalInterface.addCallback("flv_expand", this.flv_expand);
 		}
 		
 		public function flv_setWonhot(config:Object):void {
@@ -54,27 +53,33 @@ package com.xl.wonhot {
 					"data":[{
 						"fileSrc":"http://biz5.sandai.net/portal/image/40/o1460713240940.flv",
 						"imgSrc":"http://biz5.sandai.net/portal/image/58/o1460713241058.jpg",
-						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT01&location=http%3A%2F%2Fwww.qq.com"
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT01&location=http%3A%2F%2Fwww.qq.com",
+						"title":"网站首页万花筒01--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/61/o1460713240961.flv",
 						"imgSrc":"http://biz5.sandai.net/portal/image/66/o1460713241066.jpg",
-						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT02&location=http%3A%2F%2Fwww.baidu.com"
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT02&location=http%3A%2F%2Fwww.baidu.com",
+						"title":"网站首页万花筒02--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/83/o1460713240983.flv",
 						"imgSrc":"http://biz5.sandai.net/portal/image/78/o1460713241078.jpg",
-						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT03&location=http%3A%2F%2Fwww.sina.com"
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT03&location=http%3A%2F%2Fwww.sina.com",
+						"title":"网站首页万花筒03--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/07/o1460713241007.flv",
 						"imgSrc":"http://biz5.sandai.net/portal/image/85/o1460713241085.jpg",
-						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT04&location=http%3A%2F%2Fwww.hao123.com"
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT04&location=http%3A%2F%2Fwww.hao123.com",
+						"title":"网站首页万花筒04--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/26/o1460713241026.flv",
 						"imgSrc":"http://biz5.sandai.net/portal/image/98/o1460713241098.jpg",
-						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT05&location=http%3A%2F%2Fwww.kankan.com"
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT05&location=http%3A%2F%2Fwww.kankan.com",
+						"title":"网站首页万花筒05--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/44/o1460713241044.flv",
 						"imgSrc":"http://biz5.sandai.net/portal/image/05/o1460713241105.jpg",
-						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT06&location=http%3A%2F%2Fwww.youku.com"
+						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT06&location=http%3A%2F%2Fwww.youku.com",
+						"title":"网站首页万花筒06--2909-test"
 					  }],
 					"packageUrl": "http://click.cm.sandai.net/UClick?gs=cmuclick&ad=1460445249748&position=2909&materialid=m13117497",
 					"startPv":"http://pv.cm.sandai.net/UPV?gs=cmupvEnhance&pvkey=2909&materialid=m13117497",
@@ -84,13 +89,17 @@ package com.xl.wonhot {
 			
 			var data:Array = _config.data || [];
 			for (var i:int = 0, len:int = data.length; i < len; i++) {
-				_cards[i].title = data[i].fileSrc ? data[i].fileSrc.substring(data[i].fileSrc.lastIndexOf("/")+1) : "";
+				_cards[i].title = data[i].title || "";
 				_cards[i].pic = data[i].imgSrc || "";
 			}
 		}
 		
-		public function flv_expand():void {
-			Util.log("expand");
+		public function fire_expand():void {
+			ExternalInterface.available && ExternalInterface.call("flv_wonhotEvent", "expand");
+		}
+		
+		public function fire_collapse():void {
+			ExternalInterface.available && ExternalInterface.call("flv_wonhotEvent", "collapse");
 		}
 		
 		public function playMedia(index:int = 0):void {
