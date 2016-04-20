@@ -12,6 +12,7 @@ package com.xl.wonhot {
 		public static const AXIS:int = 0;
 		public static const AXIS_X:int = 1;
 		public static const AXIS_Y:int = 2;
+		public var margin:int = 10;
 		
 		private var _axis:int = AXIS;
 		private var _entity:DisplayObject;
@@ -33,8 +34,8 @@ package com.xl.wonhot {
 			
 			var x:Number = 0, y:Number = 0, scaleX:Number = 1, scaleY:Number = 1;
 			switch(_axis) {
-				case AXIS_X:x = 0; y = _entity.height; scaleY = -1; break;
-				case AXIS_Y:x = _entity.width; y = 0; scaleX = -1; break;
+				case AXIS_X:x = 0; y = _entity.height + margin; scaleY = -1; break;
+				case AXIS_Y:x = _entity.width + margin; y = 0; scaleX = -1; break;
 			}
 			var bmd:BitmapData = new BitmapData(_entity.width, _entity.height, false);
 			bmd.draw(_entity);

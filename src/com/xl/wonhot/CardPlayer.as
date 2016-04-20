@@ -24,9 +24,10 @@ package com.xl.wonhot {
 		private var _vo:Video;
 		private var _closeBtn:UICloseButton;
 		private var _link:String;
+		private var _packageUrl:String;
 		
 		public function CardPlayer() {
-			
+		
 		}
 		
 		override protected function init():void {
@@ -70,14 +71,10 @@ package com.xl.wonhot {
 				case 'NetConnection.Connect.Success': 
 					break;
 				case 'NetStream.Play.StreamNotFound': 
-					/*_isError = true;
-					 errHandler('load');*/
 					break;
 				case 'NetStream.Play.Start': 
-					//dispatchEvent(new PauseEvent(PauseEvent.LOAD_COMPLETE));
 					break;
 				case 'NetStream.Buffer.Full': 
-					//dispatchEvent(new PauseEvent(PauseEvent.LOAD_COMPLETE));
 					break;
 				case 'NetStream.Play.Stop': 
 					break;
@@ -89,12 +86,10 @@ package com.xl.wonhot {
 		}
 		
 		private function securityErrorHandler(evt:SecurityErrorEvent):void {
-			//_isError = true;
 			errHandler('load');
 		}
 		
 		private function errHandler(type:String):void {
-			//dispatchEvent(new PauseEvent(type == 'load' ? PauseEvent.LOAD_ERR : PauseEvent.PLAY_ERR));
 		}
 		
 		private function addNetStreamEvent(ns:NetStream):void {
@@ -143,6 +138,14 @@ package com.xl.wonhot {
 		
 		public function set link(value:String):void {
 			_link = value;
+		}
+		
+		public function get packageUrl():String {
+			return _packageUrl;
+		}
+		
+		public function set packageUrl(value:String):void {
+			_packageUrl = value;
 		}
 	}
 }

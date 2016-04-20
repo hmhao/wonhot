@@ -1,5 +1,6 @@
 package com.xl.wonhot {
 	import flash.net.navigateToURL;
+	import flash.net.sendToURL;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	import flash.external.ExternalInterface;
@@ -66,6 +67,11 @@ package com.xl.wonhot {
 		public static function windowOpen(str:String):void {
 			if (!/https?:\/\//.test(str)) { return; }
 			navigateToURL(new URLRequest(str));
+		}
+		
+		public static function sendURL(url:String):void {
+			url += (url.indexOf("?") == -1 ? "?" : "&") + "rd=" + new Date().valueOf();
+			sendToURL(new URLRequest(url)); 
 		}
 		
 		public static function log(...rest):void {

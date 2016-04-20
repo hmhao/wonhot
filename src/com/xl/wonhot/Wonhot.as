@@ -26,7 +26,7 @@ package com.xl.wonhot {
 		private var mode:int = 4;//大屏和小屏，右侧card 4个，中屏右侧card 6个
 		private var total:int = 6;//右侧card总数6个
 		private var margin:int = 20;//card间距
-		private var flipDuration:Number = 0.5;//翻转时间
+		private var flipDuration:Number = 0.3;//翻转时间
 		private var cardArr:Array = [];//card数组
 		private var cardPlayer:CardPlayer;//播放器
 		private var manager:CardManager;//card管理器
@@ -80,6 +80,8 @@ package com.xl.wonhot {
 			stage.addEventListener(Event.RESIZE, updatePosition);
 			updatePosition();
 			manager = new CardManager(cardArr, cardPlayer);
+			manager.addEventListener(WonhotEvent.EXPAND, startExpand);
+			manager.addEventListener(WonhotEvent.COLLAPSE, startCollapse);
 		}
 		
 		private function updatePosition(evt:Event = null):void {
@@ -99,7 +101,7 @@ package com.xl.wonhot {
 					card.x = sw - (int(i / 2) + 1) * card.width - int(i / 2) * margin;
 					card.y = sh - (i % 2 + 1) * card.height - (i % 2) * margin;
 					if (status == OPENED || status == OPENING) {
-						card.visible = i < mode && card.visible;
+						card.visible = i < mode;
 					}else {
 						card.visible = i == 0 || card.visible;
 					}
@@ -143,81 +145,80 @@ package com.xl.wonhot {
 				manager.playMedia(card.index);
 			}
 		}
-		
+		/**鼠标hover到达指定时间*/
 		private function onStart(evt:TimerEvent):void {
 			manager.fire_expand();
-			startExpand();
 		}
-		
+		/**点击关闭按钮处理*/
 		private function onClose(evt:WonhotEvent):void {
 			manager.closeMedia();
 			startCollapse();
 		}
-		
+		/**跳转处理*/
 		private function onLink(evt:WonhotEvent):void {
 			//跳转
 			//Util.log('link');
+			Util.sendURL(cardPlayer.packageUrl);
 			Util.windowOpen(cardPlayer.link);
 		}
-		
-		private function startExpand():void {
+		/**开始展开*/
+		private function startExpand(evt:WonhotEvent = null):void {
 			status = OPENING;
 			//Util.log("expand:status" + status);
 			expand(0);
 		}
-		
+		/**展开完成*/
 		private function completeExpand():void {
 			status = OPENED;
 			//Util.log("expand:status" + status);
 			//播放
 			manager.playMedia(0);
 		}
-		
-		private function startCollapse():void {
+		/**开始收起*/
+		private function startCollapse(evt:WonhotEvent = null):void {
 			status = CLOSEING;
 			//Util.log("collapse:status" + status);
 			collapse(0);
 		}
-		
+		/**收起完成*/
 		private function completeCollapse():void {
 			status = CLOSEED;
 			//Util.log("collapse:status" + status);
 			timer.reset();
 			manager.fire_collapse();
 		}
-		
+		/**展开过程，每轮展开不同卡片*/
 		private function expand(round:int = 0):void {
 			//Util.log("expand:round" + round);
 			if (round == 0) {
-				doExpand(cardArr.slice(1,2), flipDuration, { alpha:1, rotationX: -180, onComplete:expand, onCompleteParams:[round + 1] });
+				doExpand(cardArr.slice(1,2), flipDuration, { /*alpha:1, */rotationX: -180, onComplete:expand, onCompleteParams:[round + 1] });
 			}else if (round == 1) {
-				doExpand(cardArr.slice(2,4), flipDuration, { alpha:1, rotationY: 180, onComplete:expand, onCompleteParams:[round + 1] });
+				doExpand(cardArr.slice(2,4), flipDuration, { /*alpha:1, */rotationY: 180, onComplete:expand, onCompleteParams:[round + 1] });
 			}else if (round == 2) {
 				if (mode == 4) {
-					doExpand(cardArr.slice(4,6), 0, { alpha:1, rotationY: 180, onComplete:expand, onCompleteParams:[round + 1]});
+					doExpand(cardArr.slice(4,6), 0, { /*alpha:1, */rotationY: 180, onComplete:expand, onCompleteParams:[round + 1]});
 				}else {
-					doExpand(cardArr.slice(4,6), flipDuration, { alpha:1, rotationY: 180, onComplete:expand, onCompleteParams:[round + 1]});
+					doExpand(cardArr.slice(4,6), flipDuration, { /*alpha:1, */rotationY: 180, onComplete:expand, onCompleteParams:[round + 1]});
 				}
 			} else if (round == 3) {
-				doExpand([cardPlayer], flipDuration, { alpha:1, rotationY: 180, onComplete:completeExpand});
+				doExpand([cardPlayer], flipDuration, { /*alpha:1, */rotationY: 180, onComplete:completeExpand});
 			}
 		}
-		
-				
+		/**收起过程，每轮收起不同卡片*/
 		private function collapse(round:int = 0):void {
 			//Util.log("collapse:round" + round);
 			if (round == 0) {
-				doCollapse([cardPlayer], flipDuration, { alpha:0, rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
+				doCollapse([cardPlayer], flipDuration, { /*alpha:0, */rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
 			}else if (round == 1) {
 				if (mode == 4) {//若原展开6个card，后改变长度使2个card隐藏，需要将这2个card收回去
-					doCollapse(cardArr.slice(4, 6), 0, { alpha:0, rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
+					doCollapse(cardArr.slice(4, 6), 0, { /*alpha:0, */rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
 				}else {
-					doCollapse(cardArr.slice(4, 6), flipDuration, { alpha:0, rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
+					doCollapse(cardArr.slice(4, 6), flipDuration, { /*alpha:0, */rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] } );
 				}
 			}else if (round == 2) {
-				doCollapse(cardArr.slice(2,4), flipDuration, { alpha:0, rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] });
+				doCollapse(cardArr.slice(2,4), flipDuration, { /*alpha:0, */rotationY: 0, onComplete:collapse, onCompleteParams:[round + 1] });
 			}else if (round == 3) {
-				doCollapse(cardArr.slice(1,2), flipDuration, { alpha:0, rotationX: 0, onComplete:completeCollapse} );
+				doCollapse(cardArr.slice(1,2), flipDuration, { /*alpha:0, */rotationX: 0, onComplete:completeCollapse} );
 			}
 		}
 		
@@ -228,7 +229,7 @@ package com.xl.wonhot {
 		private function doCollapse(cards:Array, duration:Number, vars:Object):void {
 			doFlip(cards, duration, vars || { }, "collapse");
 		}
-		
+		/**翻转*/
 		private function doFlip(cards:Array, duration:Number, vars:Object, type:String):void {
 			var card:Card, 
 				len:int = cards.length,
@@ -256,11 +257,11 @@ package com.xl.wonhot {
 			
 			for (var i:int = 0, $vars:Object; i < len; i++) {
 				card = cards[i];
-				if (type == "expand") {
+				/*if (type == "expand") {
 					card.reflection.alpha = 0;//影子透明0
 				}else {
 					card.reflection.alpha = 1;//影子透明1
-				}
+				}*/
 				card.visible = false;//隐藏card
 				card.reflection.visible = true;//显示影子
 				$vars = Util.clone(vars);

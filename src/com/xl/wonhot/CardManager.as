@@ -1,4 +1,5 @@
 package com.xl.wonhot {
+	import com.xl.wonhot.event.WonhotEvent;
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.external.ExternalInterface;
@@ -41,6 +42,8 @@ package com.xl.wonhot {
 		private function addCallback():void {
 			//Util.log("addCallback");
 			ExternalInterface.addCallback("flv_setWonhot", this.flv_setWonhot);
+			ExternalInterface.addCallback("flv_expand", this.flv_expand);
+			ExternalInterface.addCallback("flv_collapse", this.flv_collapse);
 		}
 		
 		public function flv_setWonhot(config:Object):void {
@@ -52,32 +55,32 @@ package com.xl.wonhot {
 				_config = {
 					"data":[{
 						"fileSrc":"http://biz5.sandai.net/portal/image/40/o1460713240940.flv",
-						"imgSrc":"http://biz5.sandai.net/portal/image/58/o1460713241058.jpg",
+						"imgSrc":"http://biz5.sandai.net/portal/image/92/o1461137508592.jpg",
 						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT01&location=http%3A%2F%2Fwww.qq.com",
 						"title":"网站首页万花筒01--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/61/o1460713240961.flv",
-						"imgSrc":"http://biz5.sandai.net/portal/image/66/o1460713241066.jpg",
+						"imgSrc":"http://biz5.sandai.net/portal/image/00/o1461137508600.jpg",
 						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT02&location=http%3A%2F%2Fwww.baidu.com",
 						"title":"网站首页万花筒02--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/83/o1460713240983.flv",
-						"imgSrc":"http://biz5.sandai.net/portal/image/78/o1460713241078.jpg",
+						"imgSrc":"http://biz5.sandai.net/portal/image/07/o1461137508607.jpg",
 						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT03&location=http%3A%2F%2Fwww.sina.com",
 						"title":"网站首页万花筒03--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/07/o1460713241007.flv",
-						"imgSrc":"http://biz5.sandai.net/portal/image/85/o1460713241085.jpg",
+						"imgSrc":"http://biz5.sandai.net/portal/image/18/o1461137508618.jpg",
 						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT04&location=http%3A%2F%2Fwww.hao123.com",
 						"title":"网站首页万花筒04--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/26/o1460713241026.flv",
-						"imgSrc":"http://biz5.sandai.net/portal/image/98/o1460713241098.jpg",
+						"imgSrc":"http://biz5.sandai.net/portal/image/26/o1461137508626.jpg",
 						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT05&location=http%3A%2F%2Fwww.kankan.com",
 						"title":"网站首页万花筒05--2909-test"
 					  }, {
 						"fileSrc":"http://biz5.sandai.net/portal/image/44/o1460713241044.flv",
-						"imgSrc":"http://biz5.sandai.net/portal/image/05/o1460713241105.jpg",
+						"imgSrc":"http://biz5.sandai.net/portal/image/38/o1461137508638.jpg",
 						"fileLink":"http://count.cpm.cm.sandai.net/UClick?gs=cmGeneral&position=2909&entryid=WHT06&location=http%3A%2F%2Fwww.youku.com",
 						"title":"网站首页万花筒06--2909-test"
 					  }],
@@ -92,13 +95,29 @@ package com.xl.wonhot {
 				_cards[i].title = data[i].title || "";
 				_cards[i].pic = data[i].imgSrc || "";
 			}
+			_player.packageUrl = _config.packageUrl;
+		}
+		
+		public function flv_expand():void {
+			this.dispatchEvent(new WonhotEvent(WonhotEvent.EXPAND));
+		}
+		
+		public function flv_collapse():void {
+			this.dispatchEvent(new WonhotEvent(WonhotEvent.COLLAPSE));
 		}
 		
 		public function fire_expand():void {
-			ExternalInterface.available && ExternalInterface.call("flv_wonhotEvent", "expand");
+			//Util.log("fire_expand");
+			CONFIG::release {
+				ExternalInterface.available && ExternalInterface.call("flv_wonhotEvent", "expand");
+			}
+			CONFIG::debug {
+				flv_expand();
+			}
 		}
 		
 		public function fire_collapse():void {
+			//Util.log("fire_collapse");
 			ExternalInterface.available && ExternalInterface.call("flv_wonhotEvent", "collapse");
 		}
 		

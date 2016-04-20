@@ -62,9 +62,9 @@ package com.xl.wonhot {
 			if (_reflection) {
 				if (_reflection.axis == CardReflection.AXIS_X) {
 					_reflection.x = this.x;
-					_reflection.y = this.y + this.height;
+					_reflection.y = this.y + this.height + _reflection.margin;
 				}else if (_reflection.axis == CardReflection.AXIS_Y) {
-					_reflection.x = this.x + this.width;
+					_reflection.x = this.x + this.width + _reflection.margin;
 					_reflection.y = this.y;
 				}else {
 					_reflection.x = this.x;
